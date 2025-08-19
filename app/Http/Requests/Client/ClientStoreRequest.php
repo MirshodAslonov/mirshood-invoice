@@ -1,12 +1,20 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Client;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class ClientStoreRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,9 +23,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string",
-            "email" => "required|email:rfc,dns|unique:users,email",
-            "password" => "required|string|confirmed|min:6",
+            'name'  => 'required|string|max:160',
+            'phone' => 'nullable|string|max:40',
+            'email' => 'nullable|email',
         ];
     }
 
@@ -25,5 +33,4 @@ class RegisterRequest extends FormRequest
     {
         failedValidation($validator);
     }
-
 }
